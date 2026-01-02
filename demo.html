@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Secure Payment Component Demo</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      max-width: 500px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    secure-payment-card {
+      display: block;
+      --primary-color: #0066ff;
+      --error-color: #c00;
+      --success-color: #27ae60;
+      --card-bg-front: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --card-bg-back: linear-gradient(135deg, #434343 0%, #000000 100%);
+      --text-color-light: #ffffff;
+      --font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <h1>Payment Demo</h1>
+  <p>Fill in test card details below. Use any valid-looking card number that passes Luhn check (e.g., 4242 4242 4242 4242 for Visa). Expiration any future date. CVC any 3-4 digits.</p>
+
+  <secure-payment-card></secure-payment-card>
+
+  <!-- Load the built Angular bundle -->
+  <script src="runtime.js"></script>
+  <script src="polyfills.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<div class="payment-container">
+  <div class="card-preview">
+    <div class="scene">
+      <div class="card" [class.flipped]="isFlipped">
+        <div class="face front">
+          <div class="chip"></div>
+          <div class="card-number">{{ form.get('cardNumber')?.value || '•••• •••• •••• ••••' }}</div>
+          <div class="card-exp">{{ form.get('expDate')?.value || 'MM/YY' }}</div>
+          <div class="card-type">{{ cardType || 'CARD' }}</div>
+        </div>
+        <div class="face back">
+          <div class="strip"></div>
+          <div class="cvc-box">
+            <span>CVC</span>
+            <div class="cvc-value">{{ form.get('cvc')?.value || '•••' }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+    <div class="field">
+      <label for="cardNumber">Card Number</label>
+      <input type="text" formControlName="cardNumber" id="cardNumber" placeholder="1234 5678 9012 3456"
+              [attr.aria-describedby]="form.get('cardNumber')?.invalid &&
+                  form.get('cardNumber')?.touched ? 'cardNumberError' : null"
+              [ngClass]="{ 'is-invalid':
+                  form.get('cardNumber')?.invalid && form.get('cardNumber')?.touched }" (focus)="handleFocus($event)">
+      <span class="error-text" id="cardNumberError" role="alert"
+            *ngIf="form.get('cardNumber')?.touched &&
+                form.get('cardNumber')?.invalid">{{ getError('cardNumber') }}</span>
+    </div>
+
+    <div class="row">
+      <div class="field">
+        <label for="expDate">Expiry Date</label>
+        <input type="text" formControlName="expDate" id="expDate" placeholder="MM/YY" (focus)="handleFocus($event)"
+                [attr.aria-describedby]="form.get('expDate')?.invalid &&
+                      form.get('expDate')?.touched ? 'expDateError' : null"
+                [ngClass]="{ 'is-invalid': form.get('expDate')?.invalid && form.get('expDate')?.touched }">
+        <span class="error-text" id="expDateError" role="alert"
+              *ngIf="form.get('expDate')?.invalid && form.get('expDate')?.touched">{{ getError('expDate') }}</span>
+      </div>
+
+      <div class="field">
+        <label for="cvc">CVC</label>
+        <input type="text" formControlName="cvc" id="cvc" placeholder="123" maxlength="4" (focus)="handleFocus($event)"
+                [attr.aria-describedby]="form.get('cvc')?.invalid &&
+                    form.get('cvc')?.touched ? 'cvcError' : null"
+                [ngClass]="{ 'is-invalid': form.get('cvc')?.invalid && form.get('cvc')?.touched }">
+        <span class="error-text" id="cvcError" role="alert"
+                    *ngIf="form.get('cvc')?.invalid && form.get('cvc')?.touched">{{ getError('cvc') }}</span>
+      </div>
+
+      <div class="field">
+        <label for="postalCode">Postal Code</label>
+        <input type="text" formControlName="postalCode" id="postalCode" placeholder="90210" (focus)="handleFocus($event)"
+                [attr.aria-describedby]="form.get('postalCode')?.invalid &&
+                    form.get('postalCode')?.touched ? 'postalCodeError' : null"
+                [ngClass]="{ 'is-invalid': form.get('postalCode')?.invalid && form.get('postalCode')?.touched }">
+        <span class="error-text" id="postalCodeError" role="alert" *ngIf="form.get('postalCode')?.invalid &&
+                    form.get('postalCode')?.touched">{{ getError('postalCode') }}</span>
+      </div>
+    </div>
+
+    <button type="submit" [disabled]="loading || form.invalid">
+      {{ loading ? 'Processing...' : 'Pay Now' }}
+    </button>
+
+    <div class="message success" *ngIf="success">Payment successful!</div>
+    <div class="message error" *ngIf="errorMessage">{{ errorMessage }}</div>
+  </form>
+</div>
